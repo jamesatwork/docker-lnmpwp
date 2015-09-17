@@ -28,9 +28,9 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   #Not running the above because its taken care of in Dockerfile when adding the container user used for SSH
 
 
-  sed -e "s/database_name_here/$WORDPRESS_DB/
-  s/username_here/$WORDPRESS_DB/
-  s/password_here/$WORDPRESS_PASSWORD/
+  # sed -e "s/database_name_here/$WORDPRESS_DB/
+  # s/username_here/$WORDPRESS_DB/
+  # s/password_here/$WORDPRESS_PASSWORD/
   /'AUTH_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
   /'SECURE_AUTH_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
   /'LOGGED_IN_KEY'/s/put your unique phrase here/`pwgen -c -n -1 65`/
@@ -46,18 +46,18 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   chown -R www-data:www-data /usr/share/nginx/www/wp-content/plugins/nginx-helper
 
   # Activate nginx plugin and set up pretty permalink structure once logged in
-  cat << ENDL >> /usr/share/nginx/www/wp-config.php
-\$plugins = get_option( 'active_plugins' );
-if ( count( \$plugins ) === 0 ) {
-  require_once(ABSPATH .'/wp-admin/includes/plugin.php');
-  \$wp_rewrite->set_permalink_structure( '/%postname%/' );
-  \$pluginsToActivate = array( 'nginx-helper/nginx-helper.php' );
-  foreach ( \$pluginsToActivate as \$plugin ) {
-    if ( !in_array( \$plugin, \$plugins ) ) {
-      activate_plugin( '/usr/share/nginx/www/wp-content/plugins/' . \$plugin );
-    }
-  }
-}
+#   cat << ENDL >> /usr/share/nginx/www/wp-config.php
+# \$plugins = get_option( 'active_plugins' );
+# if ( count( \$plugins ) === 0 ) {
+#   require_once(ABSPATH .'/wp-admin/includes/plugin.php');
+#   \$wp_rewrite->set_permalink_structure( '/%postname%/' );
+#   \$pluginsToActivate = array( 'nginx-helper/nginx-helper.php' );
+#   foreach ( \$pluginsToActivate as \$plugin ) {
+#     if ( !in_array( \$plugin, \$plugins ) ) {
+#       activate_plugin( '/usr/share/nginx/www/wp-content/plugins/' . \$plugin );
+#     }
+#   }
+# }
 ENDL
 
   chown www-data:www-data /usr/share/nginx/www/wp-config.php
