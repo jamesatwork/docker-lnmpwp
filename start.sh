@@ -68,5 +68,9 @@ ENDL
   killall mysqld
 fi
 
+## Remove local mysql database config in wp-config.php
+## Add utf-8 set to wp-config.php
+### TBD
+
 # start all the services
 /usr/local/bin/supervisord -n -c /etc/supervisord.conf
